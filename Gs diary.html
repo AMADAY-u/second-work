@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>G's diaty</title>
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+</head>
+<body>
+<header>
+<div id="img" class="back"><img src="./DSC04349.jpg" alt="diary"></div>
+<h1 id="head" class="title">G's Diary</h1>
+</header>
+<main>
+    <div id="diary">
+    Date
+        <div id="date">
+            <select name="year" id="year"></select>
+            <select name="month" id="month"></select>
+            <select name="day" id="day"></select>
+        </div>
+    </div>
+    
+    <div id="content">Content
+        <textarea id="memo"></textarea>
+    </div>
+    
+    <ul class="list">
+        <li id="save">日記を記録する</li>
+        <li id="clear">全て消去する</li>
+        
+    </ul>
+
+</main>
+<table id="list">
+</table>
+<script>
+
+
+
+// 日付
+let year = "";
+for(let i = 2021; i < 2031; i++){
+    year += "<option id='nen'>"+i+"年"+"</option>";
+}
+$("#year").html(year);
+
+let month = ""
+for(let i = 1; i < 13; i++){
+    month += "<option id='gatu'>"+i+"月"+"</option>";
+}
+$("#month").html(month);
+let day = ""
+for(let i = 1; i < 32; i++){
+    day += "<option id='niti'>"+i+"日"+"</option>";
+}
+$("#day").html(day);
+
+// 記録
+$("#save").on("click",function(){
+    const key =$("#date option:selected").text();
+    const value=$("#memo").val();
+    const cancel='<button id="cancel" type="button">削除</button>'
+    localStorage.setItem(key,value);
+    // 一覧表示に追加
+    const html = '<tr><th>'+key+'</th><td>'+value+'</td><td>'+cancel+'</td></tr>'
+    $("#list").append(html);
+});
+
+// 消去
+$("#clear").on("click",function(){
+    localStorage.clear();
+    $("#list").empty();
+});
+
+//ページ読み込み：保存データ取得表示
+const len = localStorage.length;
+console.log(len);
+for(let i =0; i<len;i++){
+    const key = localStorage.key(i);
+    const value = localStorage.getItem(key);
+    const cancel='<button id="cancel" type="button">削除</button>'
+    
+    // 一覧表示
+    const html =  '<tr><th>'+key+'</th><td>'+value+'</td><td>'+cancel+'</td></tr>'
+    $("#list").append(html);
+
+    
+}
+$("#cancel").on("click",function(){
+    localStorage.removeItem("localStorage.key(i)");
+    $("list").empty();
+
+});
+
+
+
+
+
+
+</script>
+</body>
+</html>
